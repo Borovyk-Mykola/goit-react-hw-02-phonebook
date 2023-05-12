@@ -1,4 +1,8 @@
 export const App = () => {
+  state = {
+    contacts: [],
+    filter: '',
+  }
   return (
     <div
       style={{
