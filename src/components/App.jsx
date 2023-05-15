@@ -10,7 +10,7 @@ export class App extends React.Component {
     {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
     {id: 'id-3', name: 'Eden Klements', number: '645-17-79'},
     {id: 'id-4', name: 'Annie Copelsnd', number: '227-91-26'},
-  ], filter: '',
+    ], filter: '',
   }
 
   deleteContact = (contactId) => {
@@ -26,8 +26,11 @@ export class App extends React.Component {
       number: data.number,
     };
 
-    this.setState(prevState => ({
-      contacts:[contact, ...prevState.contacts]
+    this.setState(prevState => prevState.contacts.map(cont => {
+      if(contact.name === cont.name)
+        {alert(`${contact.name} is already in contacts`);
+        return;}
+      else return [contact, ...prevState.contacts]
     }))
   }
 
@@ -37,8 +40,7 @@ export class App extends React.Component {
   
   render() {
     const{ contacts, filter } = this.state;
-
-    const visibleContacts = contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()))
+    const visibleContacts = contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()));
   return (
     <div
       style={{
@@ -52,7 +54,7 @@ export class App extends React.Component {
       <h1>Phonebook</h1>
       <ContactForm onSubmitForm={this.addContact}/>
       <h2>Contacts</h2>
-      <Filter value={filter} onChange={this.onFilter}/>
+      <Filter value={filter} onChange={this.onFilter} onReset={this.reset}/>
       <ContactList contacts={visibleContacts} onDeleteContact={this.deleteContact}/>
     </div>
   )}
