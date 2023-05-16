@@ -26,12 +26,17 @@ export class App extends React.Component {
       number: data.number,
     };
 
-    this.setState(prevState => prevState.contacts.map(cont => {
-      if(contact.name === cont.name)
-        {alert(`${contact.name} is already in contacts`);
-        return;}
-      else return [contact, ...prevState.contacts]
-    }))
+    this.state.contacts.filter(cont =>
+        cont.name.toLowerCase().trim() ===
+        contact.name.toLowerCase().trim() ||
+        cont.number.trim() === contact.number.trim()
+    ).length 
+    ? alert(`${contact.name}: is already in contacts`)
+    : this.setState(prevState => {
+      return {
+        contacts: [contact, ...prevState.contacts],
+      };
+    });
   }
 
   onFilter = e => {
